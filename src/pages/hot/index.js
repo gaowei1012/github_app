@@ -6,7 +6,8 @@ import {
   createMaterialTopTabNavigator,
   createAppContainer
 } from 'react-navigation';
-import NavigationUtils from '../../utils/navigationUtils'
+import NavigationUtils from '../../utils/navigationUtils';
+import { SafeAreaView } from 'react-navigation';
 
 export default class HotPage extends React.Component {
 
@@ -67,12 +68,12 @@ class NavigationTab extends React.Component {
   };
 
   render() {
-    const {tabLabel} = this.props
+    const {tabLabel} = this.props;
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>{tabLabel}</Text>
-        <Text style={styles.text} onPress={this.goToPageHandler}>跳转到详情页面</Text>
-      </View>
+        // 适配 iphone x 齐刘海
+        <SafeAreaView style={styles.container}>
+          <Text style={styles.text}>{tabLabel}</Text>
+        </SafeAreaView>
     );
   }
 }
@@ -85,6 +86,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     color: '#000',
+    marginTop: -20,
     textAlign: 'center'
   },
   tabBarStyle: {
@@ -98,4 +100,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10
   }
-})
+});
