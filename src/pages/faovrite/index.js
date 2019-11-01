@@ -1,11 +1,5 @@
-/*
- * @Author: your name
- * @Date: 2019-10-31 13:50:31
- * @LastEditTime: 2019-10-31 17:58:45
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /github_app/src/pages/faovr/index.js
- */
+'use strict';
+
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 

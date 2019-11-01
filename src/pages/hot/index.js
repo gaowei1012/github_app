@@ -1,14 +1,8 @@
-/*
- * @Author: your name
- * @Date: 2019-10-31 13:48:47
- * @LastEditTime: 2019-10-31 18:33:30
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /github_app/src/pages/hot/index.js
- */
+'use strict';
+
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { 
+import {
   createMaterialTopTabNavigator,
   createAppContainer
 } from 'react-navigation';
@@ -64,13 +58,13 @@ export default class HotPage extends React.Component {
 }
 
 class NavigationTab extends React.Component {
-  
+
   goToPageHandler = () => {
     const {navigation} = this.props;
     NavigationUtils.goToPage({
       navigation
     }, 'DetailPageNavgation');
-  }
+  };
 
   render() {
     const {tabLabel} = this.props

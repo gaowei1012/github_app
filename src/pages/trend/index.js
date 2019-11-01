@@ -8,22 +8,12 @@
  */
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
+import { connect } from 'react-redux';
+import actions from '../../action/index';
 
-export default class TrendPage extends React.Component {
+class TrendPage extends React.Component {
   constructor(props) {
     super(props)
-  }
-
-  /// 改变主题色
-  checkThemeColor = () => {
-    console.log('set params')
-    const { navigation } = this.props;
-    navigation.setParams({
-      theme: {
-        tintColor: 'red',
-        updateTime: new Date().getTime()
-      }
-    })
   }
 
   render() {
@@ -32,7 +22,9 @@ export default class TrendPage extends React.Component {
         <Text style={styles.text}>趋势页面</Text>
         <Button
           title='点我改变主题色'
-          onPress={this.checkThemeColor}
+          onPress={() => {
+            this.props.onThemeChange('red');
+          }}
         />
       </View>
     );
@@ -49,4 +41,11 @@ const styles = StyleSheet.create({
     color: '#000',
     textAlign: 'center'
   }
-})
+});
+
+const mapStateToProps = state => ({});
+const mapDispatchToProps = dispatch => ({
+  onThemeChange: theme => dispatch(actions.onThemeChange(theme))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrendPage);

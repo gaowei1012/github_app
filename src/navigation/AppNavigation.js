@@ -1,50 +1,70 @@
-/*
- * @Author: your name
- * @Date: 2019-10-31 13:07:59
- * @LastEditTime: 2019-10-31 13:27:19
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /github_app/src/navigation/AppNavigation.js
- */
+'use strict';
 
-import { 
+import {
   createStackNavigator,
   createSwitchNavigator,
-  createAppContainer
+  createAppContainer,
 } from 'react-navigation';
 import HomePage from '../pages/home';
 import WelcomPage from '../pages/weclom';
 import DetailPage from '../pages/detail';
+import {connect} from 'react-redux';
+import {
+  createReduxContainer,
+  createReactNavigationReduxMiddleware,
+  createNavigationReducer
+} from 'react-navigation-redux-helpers';
+
+export const rootCom = 'Init'; // 根路由
 
 const InitNavigator = createStackNavigator({
   WelcomPage: {
     screen: WelcomPage,
     navigationOptions: {
-      header: null
-    }
-  }
-})
+      header: null,
+    },
+  },
+});
 
 const MainNavigator = createStackNavigator({
   HomePage: {
     screen: HomePage,
     navigationOptions: {
-      header: null
-    }
+      header: null,
+    },
   },
   DetailPage: {
     screen: DetailPage,
     navigationOptions: {
-      header: null
-    }
-  }
-})
+      header: null,
+    },
+  },
+});
 
-export default createAppContainer(createSwitchNavigator({
-  Init: InitNavigator,
-  Main: MainNavigator
-}, {
-  navigationOptions: {
-    header: null
-  }
-}))
+export const RootNavigation = createAppContainer(
+  createSwitchNavigator(
+    {
+      Init: InitNavigator,
+      Main: MainNavigator,
+    },
+    {
+      navigationOptions: {
+        header: null,
+      },
+    },
+  ),
+);
+
+/// create middleware
+export const middleware = createReactNavigationReduxMiddleware(
+  state => state.nav,
+    'root',
+);
+
+const AppWithNavigationState = createReduxContainer(RootNavigation, 'root');
+
+const mapStateToProps = state => ({
+  state: state.nav,
+});
+
+export default connect(mapStateToProps)(AppWithNavigationState);
