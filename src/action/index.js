@@ -2,7 +2,10 @@
 'use strict';
 
 import {onThemeChange} from './theme';
+import {popularLoadRefresh, popularRefreshMore} from './popular';
 
 export default {
-    onThemeChange
+    onThemeChange,
+    popularLoadRefresh,
+    popularRefreshMore
 }

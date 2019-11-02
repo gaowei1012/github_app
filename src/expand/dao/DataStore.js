@@ -1,62 +1,61 @@
-import { AsyncStorage } from 'react-native';
+import {AsyncStorage} from 'react-native';
+import Trending from 'GitHubTrending';
+
+export const FLAG_STORAGE = {flag_popular: 'popular', flag_trending: 'trending'};
 
 export default class DataStore {
-    /// 离线缓存实现
-    /// 主要思想: 首先会在本地查找数据是否存在，如果存在那么使用本地，否则使用网络数据
-    fetchData(url) {
+
+    /**
+     * 获取数据，优先获取本地数据，如果无本地数据或本地数据过期则获取网络数据
+     * @param url
+     * @param flag
+     * @returns {Promise}
+     */
+    fetchData(url, flag) {
         return new Promise((resolve, reject) => {
-            /// 首先会在本地查找数据是否存在，如果存在那么使用本地，否则使用网络数据
-            this.fetchDNetData(url).then((wrapData) => {
-                /// 如果本地有数据，并且数据在有效时期内
-                if (wrapData && DataStore.checkTimestampValid(wrapData)) {
+            this.fetchLocalData(url).then((wrapData) => {
+                if (wrapData && DataStore.checkTimestampValid(wrapData.timestamp)) {
                     resolve(wrapData);
                 } else {
-                    this.fetchDNetData(url)
-                        .then(data => {
-                            resolve(this._warperData(data))
-                        })
-                        .catch(e => {
-                            reject(e);
-                            console.error(e);
-                        })
+                    this.fetchNetData(url, flag).then((data) => {
+                        resolve(this._wrapData(data));
+                    }).catch((error) => {
+                        reject(error);
+                    })
                 }
+
+            }).catch((error) => {
+                this.fetchNetData(url, flag).then((data) => {
+                    resolve(this._wrapData(data));
+                }).catch((error => {
+                    reject(error);
+                }))
             })
-                .catch(e => {
-                    /// 如果出错会直接再次获取数据
-                    this.fetchDNetData(url)
-                        .then(data => {
-                            resolve(this._warperData(data));
-                        })
-                        .catch(e => {
-                            reject(e);
-                            console.error(e);
-                        })
-                })
         })
     }
 
-
-    // 保存数据
+    /**
+     * 保存数据
+     * @param url
+     * @param data
+     * @param callback
+     */
     saveData(url, data, callback) {
         if (!data || !url) return;
-        AsyncStorage.setItem(url, JSON.stringify(this._wrapData(data), callback))
+        AsyncStorage.setItem(url, JSON.stringify(this._wrapData(data)), callback);
     }
 
-    /// 处理data
-    _wrapData(data) {
-        return {
-            data: data,
-            timestamp: new Date().getTime()
-        }
-    }
-
-    // 获取本地数据
+    /**
+     * 获取本地数据
+     * @param url
+     * @returns {Promise}
+     */
     fetchLocalData(url) {
         return new Promise((resolve, reject) => {
             AsyncStorage.getItem(url, (error, result) => {
                 if (!error) {
                     try {
-                        resolve(JSON.parse(result))
+                        resolve(JSON.parse(result));
                     } catch (e) {
                         reject(e);
                         console.error(e);
@@ -69,40 +68,62 @@ export default class DataStore {
         })
     }
 
-
-    // 获取网络数据
-    fetchDNetData(url) {
+    /**
+     * 获取网络数据
+     * @param url
+     * @param flag
+     * @returns {Promise}
+     */
+    fetchNetData(url, flag) {
         return new Promise((resolve, reject) => {
-            fetch(url)
-                .then((response) => {
-                    // 判断是否请求成功，返回正确的字段
-                    if (response.ok) {
-                        return response.json()
-                    }
-                    throw new Error(response.error())
-                })
-                .then((responseData) => {
-                    /// 为了节流，将数据保存在本地，设置过期时间
-                    this.saveData(url, responseData);
-                    resolve(responseData);
-                })
-                .catch((e) => {
-                    /// 抛出拦截的错误信息
-                    reject(e);
-                    console.error(e);
-                })
+            if (flag !== FLAG_STORAGE.flag_trending) {
+                fetch(url)
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                        throw new Error('Network response was not ok.');
+                    })
+                    .then((responseData) => {
+                        this.saveData(url, responseData)
+                        resolve(responseData);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    })
+            } else {
+                new Trending().fetchTrending(url)
+                    .then(items => {
+                        if (!items) {
+                            throw new Error('responseData is null');
+                        }
+                        this.saveData(url, items);
+                        resolve(items);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    })
+            }
         })
     }
 
-    /// 检查保存数据时效性是否过期
+    _wrapData(data) {
+        return {data: data, timestamp: new Date().getTime()};
+    }
+
+    /**
+     * 检查timestamp是否在有效期内
+     * @param timestamp 项目更新时间
+     * @return {boolean} true 不需要更新,false需要更新
+     */
     static checkTimestampValid(timestamp) {
         const currentDate = new Date();
         const targetDate = new Date();
         targetDate.setTime(timestamp);
-        if (currentDate.getFullYear() !== targetDate.getFullYear()) return false;
         if (currentDate.getMonth() !== targetDate.getMonth()) return false;
         if (currentDate.getDate() !== targetDate.getDate()) return false;
-        if (currentDate.getHours() !== targetDate.getHours() > 4) return false;
+        if (currentDate.getHours() - targetDate.getHours() > 4) return false;//有效期4个小时
+        // if (currentDate.getMinutes() - targetDate.getMinutes() > 1)return false;
         return true;
     }
 }

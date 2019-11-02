@@ -10,6 +10,7 @@
 
 import {combineReducers} from 'redux';
 import theme from './theme';
+import popular from './popular/popular';
 import { rootCom, RootNavigation } from '../navigation/AppNavigation';
 
 const navState = RootNavigation.router.getStateForAction(RootNavigation.router.getActionForPathAndParams(rootCom));
@@ -21,7 +22,8 @@ const navReducer = (state = navState, action) => {
 
 const index = combineReducers({
   nav: navReducer,
-  theme: theme
+  theme: theme,
+  popular: popular,
 });
 
 export default index;

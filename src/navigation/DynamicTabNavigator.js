@@ -13,14 +13,14 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import NavigationUtils from '../utils/navigationUtils';
-import HotPage from '../pages/hot';
+import PopularPage from '../pages/hot';
 import MyPage from '../pages/my';
 import FaovritePage from '../pages/faovrite';
 import TrendPage from '../pages/trend';
 
 const TABS = {
     HotPage: {
-        screen: HotPage,
+        screen: PopularPage,
         navigationOptions: {
             tabBarLabel: '最热',
             tabBarIcon: ({tintColor, focused}) => (
@@ -87,7 +87,7 @@ class DynamicTabNavigator extends React.Component<props> {
         }
         const { HotPage, FavoritePage, TrendPage, MyPage } = TABS;
         const tabs = {HotPage, TrendPage, FaovritePage: FavoritePage, MyPage};
-        HotPage.navigationOptions.tabBarLabel = '最热';
+        HotPage.navigationOptions.tabBarLabel = '最新';
         return this.Tabs = createBottomTabNavigator(tabs, {
                 tabBarComponent: props => {
                     return <TabBarComponent {...props} theme={this.props.theme}/>
