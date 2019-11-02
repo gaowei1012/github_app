@@ -16,7 +16,7 @@ import NavigationUtils from '../utils/navigationUtils';
 import PopularPage from '../pages/hot';
 import MyPage from '../pages/my';
 import FaovritePage from '../pages/faovrite';
-import TrendPage from '../pages/trend';
+import TrendingPage from '../pages/trend';
 
 const TABS = {
     HotPage: {
@@ -33,7 +33,7 @@ const TABS = {
         }
     },
     TrendPage: {
-        screen: TrendPage,
+        screen: TrendingPage,
         navigationOptions: {
             tabBarLabel: '趋势',
             tabBarIcon: ({tintColor, focused}) => (
