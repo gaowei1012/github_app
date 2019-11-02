@@ -10,7 +10,6 @@ export default class HomePage extends React.Component {
 
   render() {
     // 保存navigation为了后面调用
-    //console.log(this.props.navigation)
     NavigationUtils.navigation = this.props.navigation;
     return <DynamicTabNavigator/>;
   }
@@ -26,4 +25,4 @@ const styles = StyleSheet.create({
     color: '#000',
     textAlign: "center"
   }
-})
+});

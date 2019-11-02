@@ -12,11 +12,12 @@ import NavigationUtils from '../../utils/navigationUtils';
 import { SafeAreaView } from 'react-navigation';
 import popular from '../../reducres/popular/popular';
 import PopularItem from '../../common/PopularItem';
+import NavigarionBar from '../../common/NavigarionBar';
 import Toast from 'react-native-easy-toast';
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
-const THEME_TITLE_COLOR = 'blue';
+const THEME_TITLE_COLOR = '#678';
 const THEME_TITLE = 'loading';
 
 export default class PopularPage extends React.Component {
@@ -59,9 +60,19 @@ export default class PopularPage extends React.Component {
   }
 
   render() {
+    let statusBar = {
+      backgroundColor: THEME_TITLE_COLOR,
+      barStyle: 'light-content'
+    };
+    let navigationBar = <NavigarionBar
+      title={'最热'}
+      statusBar={statusBar}
+      style={{backgroundColor: THEME_TITLE_COLOR}}
+    />;
     const Tab = createAppContainer(this._topNavigator());
     return (
-      <View style={{flex: 1, marginTop: 30}}>
+      <View style={{flex: 1, marginTop: -10}}>
+        {navigationBar}
         <Tab/>
       </View>
     );
@@ -190,11 +201,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     color: '#000',
-    marginTop: -20,
     textAlign: 'center'
   },
   tabBarStyle: {
-    minWidth: 20
+    minWidth: 20,
+    marginTop: -15
   },
   indicatorStyle: {
     height: 2,
@@ -202,7 +213,7 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 16,
-    marginTop: 10
+    //marginTop: 10
   },
   indicatorContainer: {
     alignItems: 'center'

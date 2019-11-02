@@ -16,7 +16,7 @@ export default class FavoritePage extends React.Component {
         updateTime: new Date().getTime()
       }
     })
-  }
+  };
 
   render() {
     return (
@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
     color: '#000',
     textAlign: 'center',
   }
-})
+});
