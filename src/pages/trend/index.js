@@ -14,8 +14,8 @@ import PopularItem from '../../common/PopularItem';
 import NavigarionBar from '../../common/NavigarionBar';
 import Toast from 'react-native-easy-toast';
 
-const URL = 'https://api.github.com/search/repositories?q=';
-const QUERY_STR = '&sort=stars';
+const URL = 'https://github.com/trending/';
+const QUERY_STR = '?since=daily';
 const THEME_TITLE_COLOR = '#678';
 const THEME_TITLE = 'loading';
 
@@ -23,7 +23,7 @@ export default class TrendingPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.tabNams = ['Java', 'Android', 'Javascript', 'nodejs', 'Flutter', 'GoLang', 'Python'];
+    this.tabNams = ['C', 'PHP', 'Dart', 'Javascript', 'React', 'Vue', 'Go'];
   }
 
   _genTab() {
@@ -64,7 +64,7 @@ export default class TrendingPage extends React.Component {
       barStyle: 'light-content'
     };
     let navigationBar = <NavigarionBar
-        title={'最热'}
+        title={'趋势'}
         statusBar={statusBar}
         style={{backgroundColor: THEME_TITLE_COLOR}}
     />;
@@ -105,8 +105,8 @@ class TrendingTab extends React.Component {
 
   // more data
   _store() {
-    const  {popular} = this.props;
-    let store = popular[this.storeName];
+    const  {trending} = this.props;
+    let store = trending[this.storeName];
     if (!store) {
       store = {
         items: [],
