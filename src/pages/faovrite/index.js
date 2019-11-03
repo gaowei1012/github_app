@@ -1,31 +1,22 @@
 'use strict';
 
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import NavigationBar from '../../common/NavigarionBar';
 
 export default class FavoritePage extends React.Component {
   constructor(props) {
     super(props)
   }
 
-  checkSetColor = () => {
-    const { navigation } = this.props;
-    navigation.setParams({
-      theme: {
-        tintColor: 'green',
-        updateTime: new Date().getTime()
-      }
-    })
-  };
-
   render() {
+    const navigationBar = <NavigationBar
+      title={'收藏'}
+    />;
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>趋势页面</Text>
-        <Button
-          title='改变主题色'
-          onPress={this.checkSetColor}
-        />
+      <View>
+        {navigationBar}
+        <Text style={styles.text}>收藏页面</Text>
       </View>
     );
   }

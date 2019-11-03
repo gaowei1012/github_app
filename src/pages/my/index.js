@@ -7,33 +7,50 @@
  * @FilePath: /github_app/src/pages/my/index.js
  */
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, ScrollView, TouchableOpacity } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import NavigationBar from '../../common/NavigarionBar';
+const THEME_COLOR = '#678';
 
 export default class MyPage extends React.Component {
   constructor(props) {
     super(props)
   }
 
-  /// 修改主题色
-  checkSetTheme = () => {
-    console.log('log =------=')
-    const { navigation } = this.props;
-    navigation.setParams({
-      theme: {
-        tintColor: 'blue',
-        updateTime: new Date().getTime()
-      }
-    })
-  }
-
   render() {
+
+    const navigationBar = <NavigationBar
+      title={'我的'}
+    />;
+
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>我的页面</Text>
-        <Button
-          title='点我修改主题色'
-          onPress={this.checkSetTheme}
-        />
+        {navigationBar}
+        <ScrollView>
+          <TouchableOpacity
+            onPress={() => this.onClick(null)}
+          />
+          <View style={styles.row}>
+            <Ionicons
+                name={null}
+                size={40}
+                style={{
+                  color: THEME_COLOR,
+                  marginRight: 10
+                }}
+            />
+            <Text>Github user</Text>
+          </View>
+          <Ionicons
+            name={'ios-arrow-forward'}
+            size={16}
+            style={{
+              marginRight: 10,
+              alignSelf: 'center',
+              color: THEME_COLOR
+            }}
+          />
+        </ScrollView>
       </View>
     );
   }
@@ -48,5 +65,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000',
     textAlign: 'center'
+  },
+  row: {
+    alignItems: 'center',
+    flexDirection: 'row'
   }
-})
+});
