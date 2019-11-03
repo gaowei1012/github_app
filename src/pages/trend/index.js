@@ -10,7 +10,7 @@ import {
 import NavigationUtils from '../../utils/navigationUtils';
 import { SafeAreaView } from 'react-navigation';
 import popular from '../../reducres/popular/popular';
-import PopularItem from '../../common/PopularItem';
+import TrendingItem from '../../common/TrendingItem';
 import NavigarionBar from '../../common/NavigarionBar';
 import Toast from 'react-native-easy-toast';
 
@@ -124,7 +124,7 @@ class TrendingTab extends React.Component {
 
   renderItem(data) {
     const item = data.item;
-    return <PopularItem
+    return <TrendingItem
         item={item}
         onSelect={() => {}}
     />
