@@ -1,8 +1,8 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-target 'github_app' do
-  # Pods for github_app
+target 'github-app' do
+  # Pods for github-app
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -36,7 +36,7 @@ target 'github_app' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  target 'github_appTests' do
+  target 'github-appTests' do
     inherit! :search_paths
     # Pods for testing
   end
@@ -44,8 +44,8 @@ target 'github_app' do
   use_native_modules!
 end
 
-target 'github_app-tvOS' do
-  # Pods for github_app-tvOS
+target 'github-app-tvOS' do
+  # Pods for github-app-tvOS
 
   target 'github_app-tvOSTests' do
     inherit! :search_paths
